@@ -7,6 +7,7 @@ public class TimeManager : MonoBehaviour {
     [SerializeField] private Button button;
     [SerializeField] private Transform buttonTransform;
     [SerializeField] private Image slider;
+    [SerializeField] private Player player;
 
     [SerializeField] private float changeRate;
 
@@ -23,11 +24,13 @@ public class TimeManager : MonoBehaviour {
         Vector3 temp = buttonTransform.localPosition;
         temp.x = 0;
         buttonTransform.localPosition = temp;
+        player.enabled = false;
     }
 
     private void Update() {
         if (Input.GetMouseButton(0)) {
             if (buttonIsInMid) {
+                player.enabled = false;
                 float x = Input.mousePosition.x - (screenWidth / 2);
                 buttonIsInMid = false;
                 if (currentCoroutine != null) {
@@ -56,6 +59,9 @@ public class TimeManager : MonoBehaviour {
     }
 
     public void ClickButton() {
+        if (player.isRunning) {
+            return;
+        }
         button.enabled = false;
         buttonIsInMid = true;
         if (currentCoroutine != null) {
@@ -78,6 +84,7 @@ public class TimeManager : MonoBehaviour {
     }
 
     private IEnumerator moveButton(float from, float to) {
+        changeRate = 100;
         changeRate = Mathf.Abs((to - from) * changeRate / (screenWidth / 2));
         float changeRateValue = (to - from) / changeRate;
         float changeSliderValue = changeRateValue / screenWidth;
@@ -88,7 +95,10 @@ public class TimeManager : MonoBehaviour {
             buttonTransform.localPosition = temp;
             yield return new WaitForSeconds(0.01f);
         }
-        changeRate = 130;
+        FinishMove(from, to);
+    }
+
+    private void FinishMove(float from, float to) {
         Vector3 final = buttonTransform.localPosition;
         final.x = to;
         buttonTransform.localPosition = final;
@@ -103,6 +113,7 @@ public class TimeManager : MonoBehaviour {
                 slider.fillAmount = 0f;
             }
         }
+        player.enabled = true;
     }
 
 }
