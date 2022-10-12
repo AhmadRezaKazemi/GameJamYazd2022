@@ -9,7 +9,8 @@ public class TimeManager : MonoBehaviour {
     [SerializeField] private Image slider;
     [SerializeField] private Player player;
 
-    [SerializeField] private float changeRate;
+    [SerializeField] private float changeRateFixed;
+    private float changeRate;
 
     private bool buttonIsInMid, buttonIsInleft;
 
@@ -84,7 +85,7 @@ public class TimeManager : MonoBehaviour {
     }
 
     private IEnumerator moveButton(float from, float to) {
-        changeRate = 100;
+        changeRate = changeRateFixed;
         changeRate = Mathf.Abs((to - from) * changeRate / (screenWidth / 2));
         float changeRateValue = (to - from) / changeRate;
         float changeSliderValue = changeRateValue / screenWidth;

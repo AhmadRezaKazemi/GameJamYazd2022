@@ -7,9 +7,15 @@ public class Player : MonoBehaviour {
     public Animator animator;
     [SerializeField] private float speed = 15f;
     public bool isRunning;
+    [SerializeField] private GameObject textNope, textMissionComplete, textGoodJob;
+    Coroutine nope;
+    private int breakCount;
+    private bool isShowingTxt;
 
     private void Start() {
         inputTouch = this.gameObject.transform.position;
+        breakCount = 0;
+        isShowingTxt = false;
     }
     private void Update() {
         MovePlayer();
@@ -17,12 +23,25 @@ public class Player : MonoBehaviour {
 
     private void MovePlayer() {
         if (Input.GetMouseButton(0)) {
+            GameObject text = textNope;
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D[] touches = Physics2D.RaycastAll(mousePos, mousePos, 0.5f);
-            if (touches.Length > 0 && !isRunning) {
+            for(int i = 0; i< touches.Length; i++) {
                 if (touches[0].transform.CompareTag("Button")) {
                     return;
                 }
+                else if (touches[0].transform.CompareTag("Break")) {
+                    breakCount++;
+                    text = textGoodJob;
+                    if (breakCount > 25) {
+                        textMissionComplete.SetActive(true);
+                    }
+                }
+            }
+            if (nope != null && !isShowingTxt) {
+                isShowingTxt = true;
+                StopCoroutine(nope);
+                nope = StartCoroutine(ShowNope(text));
             }
             isRunning = true;
             animator.SetBool("Run", true);
@@ -39,5 +58,13 @@ public class Player : MonoBehaviour {
             animator.SetBool("Run", false);
             isRunning = false;
         }
+    }
+
+
+    private IEnumerator ShowNope(GameObject text) {
+        text.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        text.SetActive(false);
+        isShowingTxt = false;
     }
 }
