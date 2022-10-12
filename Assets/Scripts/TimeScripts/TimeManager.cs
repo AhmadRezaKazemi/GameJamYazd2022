@@ -129,7 +129,7 @@ public class TimeManager : MonoBehaviour {
         player.enabled = false;
         yield return new WaitForSeconds(2f);
         player.textMissionComplete.SetActive(false);
-        waterTower.transform.localRotation = new Quaternion(0f, 0f, 30f, 0);
+        waterTower.transform.localRotation = Quaternion.Euler(0, 0, 30);
         yield return StartCoroutine(moveButton(buttonTransform.localPosition.x, 0));
         yield return StartCoroutine(moveButton(buttonTransform.localPosition.x, (screenWidth / 2) * (-1)));
         water1.SetActive(true);
