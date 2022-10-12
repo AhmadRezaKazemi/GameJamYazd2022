@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour {
@@ -9,8 +10,10 @@ public class TimeManager : MonoBehaviour {
     [SerializeField] private Image slider;
     [SerializeField] private Player player;
     [SerializeField] private GameObject breakCol;
-    [SerializeField] private Sprite[] brokenWater;
-    [SerializeField] private Image waterTower;
+    [SerializeField] private GameObject waterTower;
+    [SerializeField] private GameObject water1, water2, water3;
+    [SerializeField] private GameObject Fire;
+    [SerializeField] private GameObject tree;
 
     [SerializeField] private float changeRateFixed;
     private float changeRate;
@@ -126,8 +129,20 @@ public class TimeManager : MonoBehaviour {
         player.enabled = false;
         yield return new WaitForSeconds(2f);
         player.textMissionComplete.SetActive(false);
+        waterTower.transform.localRotation = new Quaternion(0f, 0f, 30f, 0);
         yield return StartCoroutine(moveButton(buttonTransform.localPosition.x, 0));
         yield return StartCoroutine(moveButton(buttonTransform.localPosition.x, (screenWidth / 2) * (-1)));
+        water1.SetActive(true);
+        water2.SetActive(true);
+        water3.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        water1.SetActive(false);
+        water2.SetActive(false);
+        water3.SetActive(false);
+        Fire.SetActive(false);
+        tree.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("CoreScene3");
     }
 
 }
