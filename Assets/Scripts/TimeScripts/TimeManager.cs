@@ -36,7 +36,7 @@ public class TimeManager : MonoBehaviour {
                 if (currentCoroutine != null) {
                     StopCoroutine(currentCoroutine);
                 }
-                if (x > 0) {
+                if (x < 0) {
                     MidToRight();
                 }
                 else {
