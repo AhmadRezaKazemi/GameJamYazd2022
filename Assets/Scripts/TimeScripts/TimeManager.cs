@@ -8,6 +8,9 @@ public class TimeManager : MonoBehaviour {
     [SerializeField] private Transform buttonTransform;
     [SerializeField] private Image slider;
     [SerializeField] private Player player;
+    [SerializeField] private GameObject breakCol;
+    [SerializeField] private Sprite[] brokenWater;
+    [SerializeField] private Image waterTower;
 
     [SerializeField] private float changeRateFixed;
     private float changeRate;
@@ -51,12 +54,14 @@ public class TimeManager : MonoBehaviour {
         currentCoroutine = StartCoroutine(moveButton(buttonTransform.localPosition.x, (screenWidth / 2) * (-1)));
         buttonIsInleft = true;
         button.enabled = true;
+        breakCol.SetActive(false);
     }
 
     private void MidToRight() {
         currentCoroutine = StartCoroutine(moveButton(buttonTransform.localPosition.x, screenWidth / 2));
         buttonIsInleft = false;
         button.enabled = true;
+        breakCol.SetActive(true);
     }
 
     public void ClickButton() {
@@ -115,6 +120,14 @@ public class TimeManager : MonoBehaviour {
             }
         }
         player.enabled = true;
+    }
+
+    public IEnumerator EndGame() {
+        player.enabled = false;
+        yield return new WaitForSeconds(2f);
+        player.textMissionComplete.SetActive(false);
+        yield return StartCoroutine(moveButton(buttonTransform.localPosition.x, 0));
+        yield return StartCoroutine(moveButton(buttonTransform.localPosition.x, (screenWidth / 2) * (-1)));
     }
 
 }

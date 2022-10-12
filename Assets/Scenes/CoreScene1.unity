@@ -213,7 +213,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 350}
-  m_SizeDelta: {x: 252.22778, y: 91.54082}
+  m_SizeDelta: {x: 676.99994, y: 91.54082}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &128763891
 GameObject:
@@ -1270,6 +1270,9 @@ MonoBehaviour:
   buttonTransform: {fileID: 335258045}
   slider: {fileID: 1356498694}
   player: {fileID: 1184189930}
+  breakCol: {fileID: 364839728}
+  brokenWater: []
+  waterTower: {fileID: 0}
   changeRateFixed: 50
 --- !u!4 &779558949
 Transform:
@@ -1419,7 +1422,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 350}
-  m_SizeDelta: {x: 252.22778, y: 91.54082}
+  m_SizeDelta: {x: 565.4851, y: 91.54082}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &859416454
 MonoBehaviour:
@@ -1468,7 +1471,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Di it Again!
+  m_Text: Do it Again!
 --- !u!222 &859416456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1803,6 +1806,9 @@ MonoBehaviour:
   textNope: {fileID: 413126007}
   textMissionComplete: {fileID: 29917042}
   textGoodJob: {fileID: 859416452}
+  present: {fileID: 1356498694}
+  newPresent: {fileID: 21300000, guid: db34663e09040374dba7f0f0e726cbe8, type: 3}
+  timeManager: {fileID: 779558948}
 --- !u!95 &1184189931
 Animator:
   serializedVersion: 3

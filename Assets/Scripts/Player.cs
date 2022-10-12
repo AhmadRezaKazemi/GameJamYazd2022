@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     private Vector3 inputTouch;
     public Animator animator;
     [SerializeField] private float speed = 15f;
     public bool isRunning;
-    [SerializeField] private GameObject textNope, textMissionComplete, textGoodJob;
+    [SerializeField] public GameObject textNope, textMissionComplete, textGoodJob;
     Coroutine nope;
     private int breakCount;
     private bool isShowingTxt;
+    [SerializeField] private Image present;
+    [SerializeField] private Sprite newPresent;
+    [SerializeField] TimeManager timeManager;
 
     private void Start() {
         inputTouch = this.gameObject.transform.position;
@@ -26,21 +30,21 @@ public class Player : MonoBehaviour {
             GameObject text = textNope;
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D[] touches = Physics2D.RaycastAll(mousePos, mousePos, 0.5f);
-            for(int i = 0; i< touches.Length; i++) {
-                if (touches[0].transform.CompareTag("Button")) {
+            for (int i = 0; i < touches.Length; i++) {
+                if (touches[i].transform.CompareTag("Button")) {
                     return;
                 }
-                else if (touches[0].transform.CompareTag("Break")) {
+                else if (touches[i].transform.CompareTag("Break")) {
                     breakCount++;
                     text = textGoodJob;
                     if (breakCount > 25) {
-                        textMissionComplete.SetActive(true);
+                        EndGame();
+                        return;
                     }
                 }
             }
-            if (nope != null && !isShowingTxt) {
+            if (!isShowingTxt) {
                 isShowingTxt = true;
-                StopCoroutine(nope);
                 nope = StartCoroutine(ShowNope(text));
             }
             isRunning = true;
@@ -66,5 +70,13 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         text.SetActive(false);
         isShowingTxt = false;
+    }
+
+    private void EndGame() {
+        textNope.SetActive(false);
+        textGoodJob.SetActive(false);
+        textMissionComplete.SetActive(true);
+        present.sprite = newPresent;
+        StartCoroutine(timeManager.EndGame());
     }
 }
